@@ -1,0 +1,14 @@
+[remap]
+
+importer="spine.skel"
+type="SpineSkeletonFileResource"
+uid="uid://hohi37gl1g1q"
+path="res://.godot/imported/spineboy-ess.skel-5d17151fd814133167fde6e9149bbb06.spskel"
+
+[deps]
+
+source_file="res://Content/Spine/Player/spineboy-ess.skel"
+dest_files=["res://.godot/imported/spineboy-ess.skel-5d17151fd814133167fde6e9149bbb06.spskel"]
+
+[params]
+

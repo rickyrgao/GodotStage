@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqxnan7p4vwkn"]
+
+[ext_resource type="Script" path="res://Maps/IsometricTestMap.cs" id="1_5a6b9"]
+
+[node name="IsometricTestMap" type="Node2D"]
+script = ExtResource("1_5a6b9")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.3, 0.4, 0.6, 1)
+
+[node name="TileContainer" type="Node2D" parent="."]
+
+[node name="CollisionContainer" type="Node2D" parent="."]

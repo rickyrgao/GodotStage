@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://cq1blftb6h17o"]
+
+[ext_resource type="PackedScene" uid="uid://bqxnan7p4vwkn" path="res://Maps/IsometricTestMap.tscn" id="1_2x3y5"]
+[ext_resource type="PackedScene" uid="uid://dlu13phl4wy06" path="res://Actors/Player/Player.tscn" id="2_3y4z5"]
+[ext_resource type="Script" uid="uid://bmyq4k62pm210" path="res://Main.cs" id="3_4z5a6"]
+[ext_resource type="Script" uid="uid://bnq186qujb3k" path="res://Systems/InputSystem.cs" id="4_cm0pq"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("3_4z5a6")
+
+[node name="IsometricTestMap" parent="." instance=ExtResource("1_2x3y5")]
+
+[node name="Player" parent="." instance=ExtResource("2_3y4z5")]
+position = Vector2(960, 450)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="InputSystem" type="Node" parent="."]
+script = ExtResource("4_cm0pq")

@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://dlu13phl4wy06"]
+
+[ext_resource type="Script" uid="uid://bxa0x5txjsxua" path="res://Actors/Player/Player.cs" id="1_5a6b7"]
+[ext_resource type="SpineAtlasResource" uid="uid://ios6noj2v724" path="res://Content/Spine/Player/spineboy.atlas" id="2_urha2"]
+[ext_resource type="SpineSkeletonFileResource" uid="uid://hohi37gl1g1q" path="res://Content/Spine/Player/spineboy-ess.skel" id="3_yqfyh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(20, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"run",
+"speed": 8.0
+}]
+
+[sub_resource type="SpineSkeletonDataResource" id="SpineSkeletonDataResource_vywg6"]
+atlas_res = ExtResource("2_urha2")
+skeleton_file_res = ExtResource("3_yqfyh")
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_5a6b7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_1")
+animation = &"idle"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="SpineSprite" type="SpineSprite" parent="."]
+skeleton_data_res = SubResource("SpineSkeletonDataResource_vywg6")
+preview_skin = "Default"
+preview_animation = "-- Empty --"
+preview_frame = false
+preview_time = 0.0
+scale = Vector2(0.1, 0.1)

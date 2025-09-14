@@ -1,0 +1,16 @@
+[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://4filryyutxo3"
+path="res://.godot/imported/spineboy-run.atlas-edbb49b06d6a52500733d4cb932d72d4.spatlas"
+
+[deps]
+
+source_file="res://Content/Spine/Player/spineboy-run.atlas"
+dest_files=["res://.godot/imported/spineboy-run.atlas-edbb49b06d6a52500733d4cb932d72d4.spatlas"]
+
+[params]
+
+normal_map_prefix="n"
+specular_map_prefix="s"
