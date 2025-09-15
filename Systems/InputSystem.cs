@@ -55,6 +55,13 @@ namespace godotstage.Systems
 						new InputEventKey { PhysicalKeycode = Key.D },
 						new InputEventKey { Keycode = Key.Right }
 					}
+				},
+				{
+					"shoot",
+					new List<InputEvent>
+					{
+						new InputEventMouseButton { ButtonIndex = MouseButton.Left }
+					}
 				}
 			};
 
@@ -99,6 +106,12 @@ namespace godotstage.Systems
 						(ek.PhysicalKeycode != Key.None && ek.PhysicalKeycode == tk.PhysicalKeycode))
 						return true;
 				}
+				else if (e is InputEventMouseButton em && target is InputEventMouseButton tm)
+				{
+					// Compare mouse button events
+					if (em.ButtonIndex == tm.ButtonIndex)
+						return true;
+				}
 				else if (e.GetType() == target.GetType())
 				{
 					// Other event types (joystick/mouse etc.) can be extended according to need
@@ -114,6 +127,7 @@ namespace godotstage.Systems
 			return ev switch
 			{
 				InputEventKey k => $"Key(code={k.Keycode}, phys={k.PhysicalKeycode})",
+				InputEventMouseButton mb => $"MouseBtn(button={mb.ButtonIndex})",
 				InputEventJoypadButton jb => $"JoyBtn(device={jb.Device}, button={(int)jb.ButtonIndex})",
 				InputEventJoypadMotion jm => $"JoyAxis(device={jm.Device}, axis={(int)jm.Axis}, value={jm.AxisValue:0.00})",
 				_ => ev.GetType().Name
