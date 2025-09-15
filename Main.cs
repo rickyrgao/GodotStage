@@ -30,7 +30,7 @@ public partial class Main : Node2D
 
 	private void SpawnFrogs()
 	{
-		PackedScene frogScene = (PackedScene)ResourceLoader.Load("res://Actors/Frog.tscn");
+		PackedScene frogScene = (PackedScene)ResourceLoader.Load("res://Actors/Frog/Frog.tscn");
 		RandomNumberGenerator rng = new RandomNumberGenerator();
 		rng.Randomize();
 
