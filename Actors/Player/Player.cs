@@ -32,6 +32,10 @@ namespace godotstage.Actors.Player
 					animationState.AsGodotObject().Call("set_animation", "idle", true, 0);
 					GD.Print("SpineSprite found and idle animation set");
 				}
+
+				// Set initial scale to maintain large size
+				spineSprite.Scale = new Vector2(0.25f, 0.25f);
+				GD.Print("SpineSprite scale set to large size");
 			}
 			else
 			{
@@ -191,11 +195,11 @@ namespace godotstage.Actors.Player
 			// Handle sprite flipping during shoot animation
 			if (lastDirection.X > 0)
 			{
-				spineSprite.Scale = new Vector2(0.1f, 0.1f); // Face right, normal scale
+				spineSprite.Scale = new Vector2(0.25f, 0.25f); // Face right, normal scale
 			}
 			else if (lastDirection.X < 0)
 			{
-				spineSprite.Scale = new Vector2(-0.1f, 0.1f); // Face left, horizontal flip
+				spineSprite.Scale = new Vector2(-0.25f, 0.25f); // Face left, horizontal flip
 			}
 			return;
 		}
@@ -213,11 +217,11 @@ namespace godotstage.Actors.Player
 			// Flip sprite based on horizontal movement direction
 			if (lastDirection.X > 0)
 			{
-				spineSprite.Scale = new Vector2(0.1f, 0.1f); // Face right, normal scale
+				spineSprite.Scale = new Vector2(0.25f, 0.25f); // Face right, normal scale
 			}
 			else if (lastDirection.X < 0)
 			{
-				spineSprite.Scale = new Vector2(-0.1f, 0.1f); // Face left, horizontal flip
+				spineSprite.Scale = new Vector2(-0.25f, 0.25f); // Face left, horizontal flip
 			}
 		}
 		else
@@ -227,6 +231,16 @@ namespace godotstage.Actors.Player
 			{
 				animationState.AsGodotObject().Call("set_animation", "idle", true, 0);
 				GD.Print("Spine animation: idle");
+			}
+
+			// Ensure proper scale for idle state (maintain large size)
+			if (lastDirection.X >= 0)
+			{
+				spineSprite.Scale = new Vector2(0.25f, 0.25f); // Face right, normal scale
+			}
+			else
+			{
+				spineSprite.Scale = new Vector2(-0.25f, 0.25f); // Face left, horizontal flip
 			}
 		}
 	}

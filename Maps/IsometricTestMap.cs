@@ -10,8 +10,8 @@ namespace godotstage.Maps
         private Node2D collisionContainer;
         
         // Isometric tile settings
-        private const int TileWidth = 64;
-        private const int TileHeight = 32;
+        private const int TileWidth = 160;
+        private const int TileHeight = 80;
         private const int MapWidth = 20;
         private const int MapHeight = 15;
         

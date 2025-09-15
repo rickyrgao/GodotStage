@@ -55,8 +55,8 @@ public partial class Main : Node2D
 	private Vector2 GetRandomPositionInPlayableArea(RandomNumberGenerator rng)
 	{
 		// Isometric map parameters (matching IsometricTestMap.cs)
-		const int TileWidth = 64;
-		const int TileHeight = 32;
+		const int TileWidth = 160;
+		const int TileHeight = 80;
 		const int MapWidth = 20;
 		const int MapHeight = 15;
 		Vector2 mapCenter = new Vector2(960, 200);

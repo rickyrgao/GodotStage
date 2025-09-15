@@ -5,7 +5,7 @@
 [ext_resource type="SpineSkeletonFileResource" uid="uid://hohi37gl1g1q" path="res://Content/Spine/Player/spineboy-ess.skel" id="3_yqfyh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
-size = Vector2(20, 32)
+size = Vector2(50, 80)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1"]
 animations = [{
@@ -42,4 +42,4 @@ preview_skin = "Default"
 preview_animation = "-- Empty --"
 preview_frame = false
 preview_time = 0.0
-scale = Vector2(0.1, 0.1)
+scale = Vector2(0.25, 0.25)

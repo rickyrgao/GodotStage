@@ -4,20 +4,20 @@ namespace godotstage.Actors
 {
     public partial class Frog : CharacterBody2D
     {
-        [Export] public float JumpForce = 300.0f;
-        [Export] public float Gravity = 800.0f;
+        [Export] public float JumpForce = 750.0f;
+        [Export] public float Gravity = 2000.0f;
         [Export] public float MinJumpDelay = 1.0f;
         [Export] public float MaxJumpDelay = 3.0f;
-        [Export] public float MoveSpeed = 100.0f;
-        [Export] public float PlayerDetectionRadius = 80.0f;
-        [Export] public float PlayingAreaMargin = 50.0f;
+        [Export] public float MoveSpeed = 250.0f;
+        [Export] public float PlayerDetectionRadius = 200.0f;
+        [Export] public float PlayingAreaMargin = 125.0f;
 
         private float jumpTimer = 0.0f;
         private float nextJumpTime = 0.0f;
         private bool isGrounded = false;
         private Vector2 screenSize;
         private Color frogColor;
-        private float radius = 8.0f;
+        private float radius = 20.0f;
         private CharacterBody2D player;
         private bool isFleeing = false;
 
@@ -168,8 +168,8 @@ namespace godotstage.Actors
         private bool IsWithinPlayableArea()
         {
             // Isometric map parameters (matching IsometricTestMap.cs)
-            const int TileWidth = 64;
-            const int TileHeight = 32;
+            const int TileWidth = 160;
+            const int TileHeight = 80;
             const int MapWidth = 20;
             const int MapHeight = 15;
             Vector2 mapCenter = new Vector2(960, 200);
@@ -190,8 +190,8 @@ namespace godotstage.Actors
         private Vector2 ClampToPlayableArea(Vector2 position)
         {
             // Isometric map parameters (matching IsometricTestMap.cs)
-            const int TileWidth = 64;
-            const int TileHeight = 32;
+            const int TileWidth = 160;
+            const int TileHeight = 80;
             const int MapWidth = 20;
             const int MapHeight = 15;
             Vector2 mapCenter = new Vector2(960, 200);
@@ -217,8 +217,8 @@ namespace godotstage.Actors
         private Vector2 GetBoundaryNormal(Vector2 position)
         {
             // Isometric map parameters (matching IsometricTestMap.cs)
-            const int TileWidth = 64;
-            const int TileHeight = 32;
+            const int TileWidth = 160;
+            const int TileHeight = 80;
             const int MapWidth = 20;
             const int MapHeight = 15;
             Vector2 mapCenter = new Vector2(960, 200);
@@ -248,13 +248,13 @@ namespace godotstage.Actors
         private bool IsOnGround()
         {
             // Isometric map parameters (matching IsometricTestMap.cs)
-            const int TileHeight = 32;
+            const int TileHeight = 80;
             const int MapHeight = 15;
             Vector2 mapCenter = new Vector2(960, 200);
 
             // Calculate the ground level for the current X position in isometric space
             Vector2 relativePos = Position - mapCenter;
-            float cartX = (relativePos.X / 32.0f + relativePos.Y / 16.0f) / 2.0f; // Simplified conversion
+            float cartX = (relativePos.X / 80.0f + relativePos.Y / 40.0f) / 2.0f; // Simplified conversion
 
             // The ground level follows the isometric diamond pattern
             // For a position, the ground Y is higher as we move toward the edges
@@ -269,10 +269,10 @@ namespace godotstage.Actors
             // Draw the frog as a colored circle
             DrawCircle(Vector2.Zero, radius, frogColor);
 
-            // Add a simple face
-            DrawCircle(new Vector2(-3, -2), 1.5f, Colors.Black); // Left eye
-            DrawCircle(new Vector2(3, -2), 1.5f, Colors.Black);  // Right eye
-            DrawCircle(new Vector2(0, 2), 1.0f, Colors.Black);   // Nose
+            // Add a simple face (scaled proportionally with the larger size)
+            DrawCircle(new Vector2(-7.5f, -5), 3.75f, Colors.Black); // Left eye
+            DrawCircle(new Vector2(7.5f, -5), 3.75f, Colors.Black);  // Right eye
+            DrawCircle(new Vector2(0, 5), 2.5f, Colors.Black);       // Nose
         }
     }
 }
