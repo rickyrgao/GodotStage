@@ -62,6 +62,13 @@ namespace godotstage.Systems
 					{
 						new InputEventMouseButton { ButtonIndex = MouseButton.Left }
 					}
+				},
+				{
+					"add_frog",
+					new List<InputEvent>
+					{
+						new InputEventKey { PhysicalKeycode = Key.F }
+					}
 				}
 			};
 

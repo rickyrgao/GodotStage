@@ -3,7 +3,8 @@ using Godot;
 public partial class Main : Node2D
 {
 	private CharacterBody2D player;
-	private const int FROG_COUNT = 5;
+	private const int FROG_COUNT = 2;
+	private int frogCounter = 0;
 
 	public override void _Ready()
 	{
@@ -25,10 +26,19 @@ public partial class Main : Node2D
 		}
 
 		// Spawn frogs
-		SpawnFrogs();
+		SpawnMultipleFrogs();
 	}
 
-	private void SpawnFrogs()
+	public override void _Process(double delta)
+	{
+		// Check for add_frog input
+		if (Input.IsActionJustPressed("add_frog"))
+		{
+			SpawnSingleFrog();
+		}
+	}
+
+	private void SpawnMultipleFrogs()
 	{
 		PackedScene frogScene = (PackedScene)ResourceLoader.Load("res://Actors/Frog/Frog.tscn");
 		RandomNumberGenerator rng = new RandomNumberGenerator();
@@ -46,10 +56,28 @@ public partial class Main : Node2D
 			frogInstance.Position = spawnPos;
 
 			AddChild(frogInstance);
-			GD.Print($"Spawned frog {i + 1} at position: {frogInstance.Position}");
+			frogCounter++;
+			GD.Print($"Spawned frog {frogCounter} at position: {frogInstance.Position}");
 		}
 
 		GD.Print($"Spawned {FROG_COUNT} frogs within the isometric playable area!");
+	}
+
+	private void SpawnSingleFrog()
+	{
+		PackedScene frogScene = (PackedScene)ResourceLoader.Load("res://Actors/Frog/Frog.tscn");
+		RandomNumberGenerator rng = new RandomNumberGenerator();
+		rng.Randomize();
+
+		Node2D frogInstance = (Node2D)frogScene.Instantiate();
+
+		// Spawn frog within the isometric playable area (diamond shape)
+		Vector2 spawnPos = GetRandomPositionInPlayableArea(rng);
+		frogInstance.Position = spawnPos;
+
+		AddChild(frogInstance);
+		frogCounter++;
+		GD.Print($"Spawned extra frog {frogCounter} at position: {frogInstance.Position}");
 	}
 
 	private Vector2 GetRandomPositionInPlayableArea(RandomNumberGenerator rng)

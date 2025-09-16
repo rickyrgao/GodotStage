@@ -4,7 +4,7 @@ namespace godotstage.Actors.Player
 {
 	public partial class Player : CharacterBody2D
 	{
-		[Export] public float Speed = 220.0f;
+		[Export] public float Speed = 550.0f;
 		
 	private AnimatedSprite2D animatedSprite;
 	private Node2D spineSprite;
