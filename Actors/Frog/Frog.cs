@@ -12,6 +12,10 @@ namespace godotstage.Actors
         [Export] public float PlayerDetectionRadius = 200.0f;
         [Export] public float PlayingAreaMargin = 125.0f;
 
+        // Health system
+        public const int MAX_HEALTH = 100;
+        private int currentHealth = MAX_HEALTH;
+
         private float jumpTimer = 0.0f;
         private float nextJumpTime = 0.0f;
         private bool isGrounded = false;
@@ -20,6 +24,7 @@ namespace godotstage.Actors
         private float radius = 20.0f;
         private CharacterBody2D player;
         private bool isFleeing = false;
+        private Main mainNode;
 
         public override void _Ready()
         {
@@ -36,6 +41,12 @@ namespace godotstage.Actors
 
             // Find player reference
             player = GetNode<CharacterBody2D>("/root/Main/Player");
+
+            // Get main node reference for debug features
+            mainNode = GetNode<Main>("/root/Main");
+
+            // Add to frogs group for damage system
+            AddToGroup("frogs");
 
             GD.Print($"Frog spawned at position: {Position}");
         }
@@ -264,6 +275,25 @@ namespace godotstage.Actors
             return Position.Y >= groundLevel - radius;
         }
 
+        public void TakeDamage(int damage)
+        {
+            currentHealth -= damage;
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+                // Frog dies - could add death animation/effect here
+                GD.Print($"Frog died at position: {Position}");
+                // For now, just hide the frog
+                Visible = false;
+            }
+            QueueRedraw(); // Update the health display
+        }
+
+        public int GetCurrentHealth()
+        {
+            return currentHealth;
+        }
+
         public override void _Draw()
         {
             // Draw the frog as a colored circle
@@ -273,6 +303,15 @@ namespace godotstage.Actors
             DrawCircle(new Vector2(-7.5f, -5), 3.75f, Colors.Black); // Left eye
             DrawCircle(new Vector2(7.5f, -5), 3.75f, Colors.Black);  // Right eye
             DrawCircle(new Vector2(0, 5), 2.5f, Colors.Black);       // Nose
+
+            // Draw health text above the frog (only if alive and debug enabled)
+            if (currentHealth > 0 && DebugSettings.ENABLE_DEBUG_FEATURES)
+            {
+                var font = new SystemFont();
+                font.FontNames = new string[] { "Arial" };
+                DrawString(font, new Vector2(-20, -35), currentHealth.ToString(), HorizontalAlignment.Center, -1, 16, Colors.White);
+                DrawString(font, new Vector2(-20, -37), currentHealth.ToString(), HorizontalAlignment.Center, -1, 16, Colors.Black); // Shadow
+            }
         }
     }
 }

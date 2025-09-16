@@ -1,4 +1,11 @@
 using Godot;
+using godotstage.Actors;
+
+// Debug settings - easy to toggle all debug features
+public static class DebugSettings
+{
+    public const bool ENABLE_DEBUG_FEATURES = true;
+}
 
 public partial class Main : Node2D
 {
@@ -6,18 +13,23 @@ public partial class Main : Node2D
 	private const int FROG_COUNT = 2;
 	private int frogCounter = 0;
 
+	// Damage system constants
+	private const float SHOOT_DAMAGE_RADIUS = 150.0f;
+	private const int SHOOT_DAMAGE_AMOUNT = 25;
+
+	// Debug manager
+	private DebugManager debugManager;
+
 	public override void _Ready()
 	{
-		// 获取 Player 节点
+		// Get Player node
 		player = GetNode<CharacterBody2D>("Player");
 
 		if (player != null)
 		{
-			// 确保玩家在等距地图中央 (960, 450)
+			// Position player in center of isometric map (960, 450)
 			player.Position = new Vector2(960, 450);
 			GD.Print($"Player positioned at: {player.Position}");
-
-			// 新的 Player 场景已经自带启用的 Camera2D，无需额外设置
 			GD.Print("Player loaded with built-in camera system");
 		}
 		else
@@ -27,6 +39,13 @@ public partial class Main : Node2D
 
 		// Spawn frogs
 		SpawnMultipleFrogs();
+
+		// Setup debug features
+		if (DebugSettings.ENABLE_DEBUG_FEATURES)
+		{
+			debugManager = new DebugManager();
+			AddChild(debugManager);
+		}
 	}
 
 	public override void _Process(double delta)
@@ -35,6 +54,16 @@ public partial class Main : Node2D
 		if (Input.IsActionJustPressed("add_frog"))
 		{
 			SpawnSingleFrog();
+		}
+
+		// Check for shoot input and apply damage
+		if (Input.IsActionJustPressed("shoot") && player != null)
+		{
+			ApplyShootDamage();
+			if (DebugSettings.ENABLE_DEBUG_FEATURES)
+			{
+				debugManager.ShowDamageArea();
+			}
 		}
 	}
 
@@ -102,5 +131,59 @@ public partial class Main : Node2D
 		float offsetY = rng.RandfRange(-TileHeight / 4.0f, TileHeight / 4.0f);
 
 		return mapCenter + new Vector2(isoX + offsetX, isoY + offsetY);
+	}
+
+	private void ApplyShootDamage()
+	{
+		if (player == null) return;
+
+		// Get all frog nodes
+		var frogs = GetTree().GetNodesInGroup("frogs");
+
+		int damagedFrogs = 0;
+		foreach (Node node in frogs)
+		{
+			if (node is Frog frog && frog.Visible)
+			{
+				float distance = player.Position.DistanceTo(frog.Position);
+				if (distance <= SHOOT_DAMAGE_RADIUS)
+				{
+					// Calculate damage based on distance - closer = more damage
+					float distanceRatio = 1.0f - (distance / SHOOT_DAMAGE_RADIUS);
+					int actualDamage = (int)(SHOOT_DAMAGE_AMOUNT * distanceRatio);
+					actualDamage = Mathf.Max(1, actualDamage);
+
+					int oldHealth = frog.GetCurrentHealth();
+					frog.TakeDamage(actualDamage);
+					int newHealth = frog.GetCurrentHealth();
+					damagedFrogs++;
+
+					if (DebugSettings.ENABLE_DEBUG_FEATURES)
+					{
+						// Show on-screen log for each individual damage instance
+						debugManager.LogDamage(GetFrogNumber(frog), actualDamage, newHealth, distance);
+					}
+				}
+			}
+		}
+
+		if (DebugSettings.ENABLE_DEBUG_FEATURES)
+		{
+			debugManager.LogShootSummary(damagedFrogs);
+		}
+	}
+
+	private int GetFrogNumber(Frog frog)
+	{
+		// Get all frogs and find the index of this one
+		var frogs = GetTree().GetNodesInGroup("frogs");
+		for (int i = 0; i < frogs.Count; i++)
+		{
+			if (frogs[i] == frog)
+			{
+				return i + 1; // 1-based numbering
+			}
+		}
+		return 0; // Fallback
 	}
 }
